@@ -1,0 +1,178 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_guardian",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "admin",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "caller",
+						"type": "address"
+					}
+				],
+				"name": "Initialized",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "admin",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "adminOnlyFunction",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "guardian",
+				"outputs": [
+					{
+						"internalType": "contract DeploymentGuardian",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_admin",
+						"type": "address"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "initialized",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Educational POC - demonstrates defense against front-running via authorization PROTECTION MECHANISM: 1. Guardian is set at DEPLOYMENT (immutable, can't be changed) 2. Guardian must be YOUR DeploymentGuardian (passed to constructor) 3. Attacker CANNOT pass their own malicious guardian 4. Only guardian-approved addresses can successfully call initialize 5. Even if attacker calls first, they are NOT approved → transaction reverts This replaces \"first caller wins\" with \"only approved caller wins\" IMMUTABLE GUARDIAN: - Guardian address is set ONCE in constructor (immutable keyword) - Stored in bytecode, not storage (works with many proxy patterns) - Cannot be changed or front-run after deployment",
+			"kind": "dev",
+			"methods": {
+				"adminOnlyFunction()": {
+					"details": "In a real contract, admin could control critical functions"
+				},
+				"constructor": {
+					"details": "Guardian is set ONCE at deployment and cannot be changed What this protects: - Guardian set by deployer, not by initializer - Attacker cannot pass their own malicious guardian - require(_guardian != address(0)) prevents zero address guardian",
+					"params": {
+						"_guardian": "Address of the DeploymentGuardian contract"
+					}
+				},
+				"initialize(address)": {
+					"details": "Only guardian-approved addresses can call this successfully What this protects: - require(!initialized) prevents re-initialization - require(_admin != address(0)) prevents setting admin to zero address - require(guardian.approvedInitializers(msg.sender)) prevents unauthorized initialization This is the key defense: even if an attacker calls first, they will hit the \"NOT_APPROVED\" revert unless they are in the guardian's allowlist. The guardian is immutable and set by the deployer, so attacker can't use their own guardian.",
+					"params": {
+						"_admin": "Address to become the admin"
+					}
+				}
+			},
+			"title": "GuardedInit",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"adminOnlyFunction()": {
+					"notice": "Example admin-only function (just to show the impact)"
+				},
+				"constructor": {
+					"notice": "Constructor sets the guardian contract (IMMUTABLE)"
+				},
+				"initialize(address)": {
+					"notice": "Initialize the contract and set admin (PROTECTED VERSION)"
+				}
+			},
+			"notice": "PROTECTED: Only guardian-approved addresses can initialize",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/GuardedInit.sol": "GuardedInit"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/DeploymentGuardian.sol": {
+			"keccak256": "0xfd4f3220da7e25c6283fe8af892cc7087cb9dce790c292b6d4975bdd4c0f5d19",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5181097508e32ac6ea8c8b9363ac27867f6dfdad129f00cc2e56bf118642abea",
+				"dweb:/ipfs/QmYJ9Y33i8vsZJQb5UH9VBYU7yHao9m6ahsEibzYobevQv"
+			]
+		},
+		"contracts/GuardedInit.sol": {
+			"keccak256": "0x514a1e011b43364efb8152bdd8324f42515bd001cc9950c0dd25454f93d3558d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c0b25d9761eb0e71677050cbc7ba67712078b2040fcbcab388e990e182f4e20e",
+				"dweb:/ipfs/QmfEUUi5iufRJVLsYZpnfBurXTmHjmSroa7L1qBt5Lgxfv"
+			]
+		}
+	},
+	"version": 1
+}

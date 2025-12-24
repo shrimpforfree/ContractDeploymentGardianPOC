@@ -1,0 +1,146 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "admin",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "caller",
+						"type": "address"
+					}
+				],
+				"name": "Initialized",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "admin",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "adminOnlyFunction",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAdmin",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_admin",
+						"type": "address"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "initialized",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Educational POC - demonstrates front-running attack on unprotected initialization ATTACK SCENARIO: 1. Contract is deployed 2. Attacker sees deployment in mempool 3. Attacker submits initialize(attackerAddress) with higher gas price 4. Attacker's transaction mines first 5. Attacker becomes admin",
+			"kind": "dev",
+			"methods": {
+				"initialize(address)": {
+					"params": {
+						"_admin": "Address to become the admin DOESN'T protect - Anyone can call this first and steal admin rights"
+					}
+				}
+			},
+			"title": "VulnerableInit",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"adminOnlyFunction()": {
+					"notice": "Example admin-only function (just to show the impact)"
+				},
+				"initialize(address)": {
+					"notice": "Initialize the contract and set admin"
+				}
+			},
+			"notice": "VULNERABLE: Anyone can call initialize() first and become admin",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/VulnerableInit.sol": "VulnerableInit"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/VulnerableInit.sol": {
+			"keccak256": "0x5c0c2506f9ff803657c63de6ddf8846aa0a45a5c5fb4896f649839cf8fb5ba3c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0bc51a0047e9f2a76d7c5b17c63f285b17543242ba46b81fbc5d4516372aea36",
+				"dweb:/ipfs/QmTqnCne9wR75oB3ZkBwjS3LaAQ5C1ARpx1juQoukWXdPd"
+			]
+		}
+	},
+	"version": 1
+}

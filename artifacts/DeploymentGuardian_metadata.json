@@ -1,0 +1,211 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "who",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "ok",
+						"type": "bool"
+					}
+				],
+				"name": "ApprovedInitializerSet",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "approvedInitializers",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "who",
+						"type": "address"
+					}
+				],
+				"name": "isApproved",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "who",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "ok",
+						"type": "bool"
+					}
+				],
+				"name": "setApproved",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "maintains an allowlist of approved initializers",
+			"kind": "dev",
+			"methods": {
+				"constructor": {
+					"details": "owner is currently hard coded during deployment, can be changed later"
+				},
+				"isApproved(address)": {
+					"params": {
+						"who": "Address to check"
+					},
+					"returns": {
+						"_0": "bool True if approved, false otherwise"
+					}
+				},
+				"setApproved(address,bool)": {
+					"params": {
+						"ok": "True to approve, false to revoke",
+						"who": "Address to approve or revoke"
+					}
+				},
+				"transferOwnership(address)": {
+					"details": "Added for completeness",
+					"params": {
+						"newOwner": "Address of the new owner"
+					}
+				}
+			},
+			"title": "DeploymentGuardian",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"constructor": {
+					"notice": "owner is who control the admin permission (can edit ownership and approve initialization of protected contracts)"
+				},
+				"isApproved(address)": {
+					"notice": "Check if an address is approved to initialize contracts"
+				},
+				"setApproved(address,bool)": {
+					"notice": "Set approval status for an initializer address"
+				},
+				"transferOwnership(address)": {
+					"notice": "Transfer ownership to a new address"
+				}
+			},
+			"notice": "centralized authorization contract that controls who can initialize protected contracts",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/Guardian_POC_v1/DeploymentGuardian.sol": "DeploymentGuardian"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Guardian_POC_v1/DeploymentGuardian.sol": {
+			"keccak256": "0x641a4512efe82b853e2a08950c669f0ac64b1edc8274be18facf508e7d23eb96",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4cf69f7a3f65efdb22443bdd467629748613c4d1625c84721e88632072de9490",
+				"dweb:/ipfs/QmUBsensa9airhwMuQeALQbiBnwKUP4j9LbDhy1jRBziA7"
+			]
+		}
+	},
+	"version": 1
+}
