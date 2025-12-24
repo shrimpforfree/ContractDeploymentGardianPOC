@@ -18,7 +18,6 @@ contract MultiTenantGuardian {
      * @param ok True to approve, false to revoke
      */
     function setApproved(address initializer, bool ok) external {
-        require(initializer != address(0), "ZERO_ADDRESS");
         approved[msg.sender][initializer] = ok;
         emit ApprovalSet(msg.sender, initializer, ok);
     }

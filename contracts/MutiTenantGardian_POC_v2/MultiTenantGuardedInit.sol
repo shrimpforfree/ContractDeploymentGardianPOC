@@ -19,13 +19,10 @@ contract MultiTenantGuardedInit {
     /**
      * @notice Constructor sets guardian and customer (both immutable)
      * @param _guardian Address of MultiTenantGuardian contract
-     * @param _customer Customer who controls initialization approval
      */
-    constructor(address _guardian, address _customer) {
-        require(_guardian != address(0), "GUARDIAN_ZERO");
-        require(_customer != address(0), "CUSTOMER_ZERO");
+    constructor(address _guardian) {
         guardian = MultiTenantGuardian(_guardian);
-        customer = _customer;
+        customer = msg.sender;
     }
 
     /**
@@ -34,7 +31,6 @@ contract MultiTenantGuardedInit {
      */
     function initialize(address _admin) external {
         require(!initialized, "ALREADY_INITIALIZED");
-        require(_admin != address(0), "ADMIN_ZERO");
         require(guardian.isApproved(customer, msg.sender), "NOT_APPROVED");
 
         admin = _admin;
