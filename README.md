@@ -1,50 +1,37 @@
-# Remix IDE Blank Template
+# ContractDeploymentGuardianPOC
 
-Welcome to your new **Remix IDE Blank Workspace**!
+Educational POC for a USPD-style deployment front-run: if an **initializable** contract is left **uninitialized**, an attacker can call `initialize()` first and seize admin/ownership. :contentReference[oaicite:0]{index=0}
 
-This workspace has been generated using the "Blank Template" option in Remix IDE. It starts with only minimal configuration files, giving you full control to build your project from scratch.
+## What this repo demonstrates
+### 1) Vulnerable path (first-run-attacks)
+`VulnerableInit` models the mistake:
+- contract is deployed
+- `initialize(admin)` is public
+- whoever calls it first becomes `admin`
 
----
+### 2) Guarded path (authorization-gated initialization)
+A separate on-chain **Guardian** contract acts as an authorization layer:
+- the guarded contract checks the Guardian before allowing `initialize()`
+- being “first” no longer matters unless the caller is approved
 
-## What's Included?
+## Roles (addresses)
+- **A**: Guardian deployer (service admin)
+- **B**: Customer who deploys their own contract
+- **C**: Initializer address (the one allowed to call `initialize()`)
+- **D**: Guardian contract address
 
-- **`remix.config.json`**: Default Remix IDE workspace configuration.
-- **`.prettierrc.json`**: Basic Prettier formatting rules for code consistency.
+Flow:
+1. A deploys Guardian → address **D**
+2. B deploys a guarded contract with params: `(guardian=D)`
+3. B calls `Guardian.setApproved(C, true)` (scoped to B)
+4. C calls `initialize()` on B’s contract and becomes its owner/admin
 
-No contract files, folders, or sample code are included.
-
----
-
-## Getting Started
-
-1. **Create Files & Folders**
-
-   - Add new Solidity files, scripts, or folders as needed for your project.
-   - You can organize your workspace structure in any way you like.
-
-2. **Setup Project Settings** (Optional)
-
-   - Modify `remix.config.json` or add additional configuration files as your project grows.
-
-3. **Write & Compile Smart Contracts**
-
-   - Use the **Solidity Compiler** and **Deploy & Run Transactions** plugins (available in Remix IDE's left sidebar) to develop and test your contracts.
-
-4. **(Optional) Initialize Git**
-
-   - If you checked "Initialize as a Git repository" during workspace creation, you can start committing your code immediately.
-
----
-
-## Useful Resources
-
-- [Remix IDE Documentation](https://remix-ide.readthedocs.io/)
-- [Solidity Language Documentation](https://docs.soliditylang.org/)
-- [Remix IDE Community Forum](https://forum.remix.ethereum.org/)
-
----
-
-Happy coding! 🚀 
-
-_Remix IDE Team_
-
+## How to run (Remix)
+1. Open the repo as a Remix workspace (or copy `contracts/` into Remix).
+2. Deploy `VulnerableInit`, try calling `initialize()` from an attacker account.
+3. 
+   - Account A (service) Deploy Guardian
+   - Account B (customer) deploy guarded contract, then:
+   - try `initialize()` from a non-approved account C (initializer) (should revert)
+   - Account B approve C via Guardian
+   - retry `initialize()` from account C (should succeed)
